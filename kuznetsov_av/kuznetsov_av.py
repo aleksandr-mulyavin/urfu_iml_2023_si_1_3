@@ -1,9 +1,13 @@
-from transformers import GPT2Tokenizer, GPT2Model
+from transformers import pipeline
+from datasets import load_dataset
+import torch
+import soundfile as sf
 
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-model = GPT2Model.from_pretrained('gpt2')
+synthesiser = pipeline("text-to-speech", "microsoft/speecht5_tts")
 
-text = "My name is Alex and I like to"
+embeddings_dataset = load_dataset("Matthijs/cmu-arctic-xvectors", split="validation")
+speaker_embedding = torch.tensor(embeddings_dataset[7306]["xvector"]).unsqueeze(0)
 
-encoded_input = tokenizer(text, return_tensors='pt')
-output = model(**encoded_input)
+speech = synthesiser("Hello, my dog is cooler than you!", forward_params={"speaker_embeddings": speaker_embedding})
+
+sf.write("speech.wav", speech["audio"], samplerate=speech["sampling_rate"])
