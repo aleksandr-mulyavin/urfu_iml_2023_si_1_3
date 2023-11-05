@@ -146,3 +146,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# zvereva_ev/zvereva_ev_venv/
+zvereva_ev/zvereva_ev_venv/
