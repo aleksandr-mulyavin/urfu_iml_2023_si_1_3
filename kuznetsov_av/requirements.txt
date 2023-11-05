@@ -1,0 +1,4 @@
+datasets==2.14.6
+soundfile==0.12.1
+torch==2.1.0
+transformers==4.35.0
